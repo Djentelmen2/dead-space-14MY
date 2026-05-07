@@ -1,0 +1,97 @@
+- type: entity
+  id: RndCoordinatePortalConsole
+  parent: [ BaseMachinePowered, ConstructibleMachine ]
+  name: блюспейс-координатор
+  description: Экспериментальная установка РнД, открывающая двусторонний портал в заданные координаты.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Machines/rnd_coordinate_portal.rsi
+    layers:
+    - state: frame
+    - state: portal
+      shader: unshaded
+      visible: false
+      map: ["enum.CoordinatePortalConsoleVisualLayers.Portal"]
+    - state: on
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+  - type: Transform
+    noRot: true
+  - type: Fixtures
+    fixtures:
+      portalFixture:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.7,0.45,0.7"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        hard: false
+  - type: CoordinatePortalConsole
+  - type: CoordinatePortalVelocityStabilizer
+  - type: ActivatableUI
+    key: enum.CoordinatePortalConsoleUiKey.Key
+  - type: ActivatableUIRequiresPower
+  - type: ActivatableUIRequiresAccess
+  - type: ApcPowerReceiver
+    powerLoad: 8000
+  - type: UserInterface
+    interfaces:
+      enum.CoordinatePortalConsoleUiKey.Key:
+        type: CoordinatePortalConsoleBoundUserInterface
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: true }
+          False: { visible: false }
+      enum.CoordinatePortalConsoleVisuals.Active:
+        enum.CoordinatePortalConsoleVisualLayers.Portal:
+          True: { visible: true }
+          False: { visible: false }
+  - type: PointLight
+    radius: 1.8
+    energy: 1.6
+    color: "#62d8ff"
+  - type: Machine
+    board: RndCoordinatePortalMachineCircuitboard
+  - type: AccessReader
+    access: [["Command"]]
+  - type: StaticPrice
+    price: 4500
+
+- type: entity
+  id: RndCoordinatePortal
+  parent: BasePortal
+  name: координатный блюспейс-портал
+  description: Стабилизированный выход координатного портала. Позволяет вернуться к блюспейс-координатору.
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: _DeadSpace/Structures/Machines/rnd_coordinate_portal.rsi
+    layers:
+    - state: portal
+      shader: unshaded
+  - type: Fixtures
+    fixtures:
+      portalFixture:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.7,0.45,0.7"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        hard: false
+  - type: Portal
+    randomTeleport: false
+    canTeleportToOtherMaps: false
+  - type: CoordinatePortalVelocityStabilizer
+  - type: PointLight
+    color: "#62d8ff"
+    radius: 3
+    energy: 1.2
+    netsync: false

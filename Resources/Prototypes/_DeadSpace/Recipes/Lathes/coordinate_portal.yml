@@ -1,0 +1,10 @@
+- type: latheRecipe
+  parent: BaseResearchMachineRecipeCategory
+  id: RndCoordinatePortalMachineCircuitboard
+  result: RndCoordinatePortalMachineCircuitboard
+  completetime: 4
+  materials:
+    Gold: 500
+    Plastic: 200
+    Glass: 500
+    Steel: 300

@@ -101,6 +101,7 @@
   - LawBoardConfiguratorComputerCircuitboard
   - EmptyLawCircuitBoard
   #DeadSpace-end
+  - RndCoordinatePortalMachineCircuitboard # DS14
 
 - type: latheRecipePack
   id: CameraBoards

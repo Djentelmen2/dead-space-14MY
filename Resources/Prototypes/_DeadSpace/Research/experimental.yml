@@ -24,7 +24,7 @@
   recipeUnlocks:
   - LawBoardConfiguratorComputerCircuitboard
   - EmptyLawCircuitBoard
-  
+
 # Tier 2
 
 - type: technology
@@ -96,3 +96,15 @@
   cost: 20000
   recipeUnlocks:
     - HandTeleporterResearch
+
+- type: technology
+  id: CoordinatePortalTechnology
+  name: research-technology-coordinate-portal
+  icon:
+    sprite: _DeadSpace/Structures/Machines/rnd_coordinate_portal.rsi
+    state: frame
+  discipline: Experimental
+  tier: 3
+  cost: 10000
+  recipeUnlocks:
+    - RndCoordinatePortalMachineCircuitboard

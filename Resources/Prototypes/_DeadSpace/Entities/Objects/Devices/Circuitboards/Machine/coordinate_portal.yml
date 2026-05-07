@@ -1,0 +1,16 @@
+- type: entity
+  id: RndCoordinatePortalMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: блюспейс-координатор (машинная плата)
+  description: Машинная плата для постройки блюспейс-координатора.
+  components:
+  - type: Sprite
+    state: science
+  - type: MachineBoard
+    prototype: RndCoordinatePortalConsole
+    stackRequirements:
+      Silver: 15
+      Steel: 30
+      Gold: 30
+      PlasmaGlass: 30
+      ClearBluspaceCrystal: 12
