@@ -70,6 +70,7 @@
   description: Стабилизированный выход координатного портала. Позволяет вернуться к блюспейс-координатору.
   components:
   - type: Sprite
+    noRot: true
     sprite: _DeadSpace/Structures/Machines/rnd_coordinate_portal.rsi
     layers:
     - state: portal

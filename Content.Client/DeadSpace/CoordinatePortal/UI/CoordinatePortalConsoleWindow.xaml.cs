@@ -57,6 +57,12 @@ public sealed partial class CoordinatePortalConsoleWindow : FancyWindow
         };
         TogglePortalButton.OnPressed += _ =>
         {
+            if (_state?.Active == true)
+            {
+                TogglePortal?.Invoke(_state.TargetX, _state.TargetY);
+                return;
+            }
+
             var (x, y) = ClampTargetInputs();
             TogglePortal?.Invoke(x, y);
         };
