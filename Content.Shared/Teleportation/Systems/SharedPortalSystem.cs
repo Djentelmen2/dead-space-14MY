@@ -15,6 +15,12 @@ using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
 
+// DS14-start
+using Content.Shared.DeadSpace.CoordinatePortal.Components;
+using Robust.Shared.Physics.Components;
+using Robust.Shared.Physics.Systems;
+// DS14-end
+
 namespace Content.Shared.Teleportation.Systems;
 
 /// <summary>
@@ -31,6 +37,7 @@ public abstract class SharedPortalSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly PullingSystem _pulling = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!; // DS14
 
     private const string PortalFixture = "portalFixture";
     private const string ProjectileFixture = "projectile";
@@ -237,9 +244,39 @@ public abstract class SharedPortalSystem : EntitySystem
             projectile.IgnoreShooter = false;
         }
 
+        // DS14-start
+        var stabilizeVelocity = HasComp<CoordinatePortalVelocityStabilizerComponent>(ent) ||
+                                targetEntity != null &&
+                                HasComp<CoordinatePortalVelocityStabilizerComponent>(targetEntity.Value);
+        PhysicsComponent? subjectPhysics = null;
+        var relativeVelocity = System.Numerics.Vector2.Zero;
+        var targetVelocity = System.Numerics.Vector2.Zero;
+
+        if (stabilizeVelocity && TryComp<PhysicsComponent>(subject, out subjectPhysics))
+        {
+            var sourceVelocity = _physics.GetMapLinearVelocity(ent.Owner);
+            relativeVelocity = _physics.GetMapLinearVelocity(subject, subjectPhysics) -
+                               sourceVelocity;
+            targetVelocity = targetEntity != null
+                ? _physics.GetMapLinearVelocity(targetEntity.Value)
+                : _physics.GetMapLinearVelocity(target);
+        }
+        // DS14-end
+
         LogTeleport(ent, subject, Transform(subject).Coordinates, target);
 
         _transform.SetCoordinates(subject, target);
+
+        // DS14-start
+        if (stabilizeVelocity && subjectPhysics != null)
+        {
+            var desiredVelocity = targetVelocity + relativeVelocity;
+            var currentVelocity = _physics.GetMapLinearVelocity(subject, subjectPhysics);
+            _physics.SetLinearVelocity(subject,
+                subjectPhysics.LinearVelocity + desiredVelocity - currentVelocity,
+                body: subjectPhysics);
+        }
+        // DS14-end
 
         if (!playSound)
             return;

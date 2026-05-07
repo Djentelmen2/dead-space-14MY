@@ -90,6 +90,7 @@
   - APECircuitboard
   - ArtifactAnalyzerMachineCircuitboard
   - ArtifactCrusherMachineCircuitboard
+  - RndCoordinatePortalMachineCircuitboard # DS14
 
 - type: latheRecipePack
   id: CameraBoards
